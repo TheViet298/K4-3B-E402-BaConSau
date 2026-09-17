@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLearn Adaptive AI · Học từ lỗi trước (Track D2 Mockup)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-badge">Track D2 Prototype</div>
+      <div class="brand-title">
+        <span class="logo-icon">⚡</span>
+        <h1>VLearn <strong>Error-Driven Active Tutor</strong></h1>
+      </div>
+    </div>
+    <div class="header-center">
+      <div class="stage-stepper">
+        <div class="step-item active" id="step-nav-1" onclick="switchView('challenge')">
+          <span class="step-dot">1</span>
+          <span class="step-label">Thử thách Chẩn đoán</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" id="step-nav-2" onclick="switchView('diagnosis')">
+          <span class="step-dot">2</span>
+          <span class="step-label">Chẩn đoán & Gợi mở</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" id="step-nav-3" onclick="switchView('probing')">
+          <span class="step-dot">3</span>
+          <span class="step-label">Phản biện (Reverse-Probing)</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" id="step-nav-4" onclick="switchView('summary')">
+          <span class="step-dot">4</span>
+          <span class="step-label">Bản đồ Đúc kết</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="user-pill">
+        <span class="status-indicator"></span>
+        <span>Học viên: <strong>2A202602594</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-container">
+    <!-- Preset Banner -->
+    <section class="scenario-bar">
+      <div class="scenario-title">
+        <span class="sparkle">🎯</span>
+        <span>Kịch bản thử nghiệm nhanh (Click để nạp case mẫu):</span>
+      </div>
+      <div class="scenario-buttons">
+        <button class="btn-preset active" onclick="loadScenario('misconception')">
+          <span class="tag tag-orange">Case 1</span> Ngộ nhận khái niệm (Misconception)
+        </button>
+        <button class="btn-preset" onclick="loadScenario('transfer')">
+          <span class="tag tag-blue">Case 2</span> Tắc nghẽn chuyển giao (Transfer Failure)
+        </button>
+        <button class="btn-preset" onclick="loadScenario('correct')">
+          <span class="tag tag-green">Case 3</span> Làm đúng → Phản biện ngược
+        </button>
+        <button class="btn-preset" onclick="loadScenario('cheating')">
+          <span class="tag tag-red">Guardrail</span> Thử xin đáp án trực tiếp
+        </button>
+      </div>
+    </section>
+
+    <!-- CONTENT PANELS -->
+    <div class="workspace-grid">
+      
+      <!-- LEFT PANEL: Diagnostic Challenge & Problem Context -->
+      <section class="card panel-challenge">
+        <div class="card-header">
+          <div class="header-meta">
+            <span class="badge badge-purple">Bài 4 · ReAct Agent Logic</span>
+            <span class="badge badge-subtle">Trước giờ lý thuyết</span>
+          </div>
+          <h2>🔥 Thử thách Chẩn đoán: Debug luồng Tool Calling</h2>
+          <p class="challenge-desc">
+            Đoạn code Agent dưới đây bị sụp đổ khi nhận câu hỏi cần gọi 2 công cụ liên tiếp (Multi-hop Query). Hãy phân tích nguyên nhân và đề xuất cách sửa.
+          </p>
+        </div>
+
+        <div class="code-editor-box">
+          <div class="editor-topbar">
+            <span class="file-name">agent_runner.py</span>
+            <span class="lang-tag">Python 3.11</span>
+          </div>
+          <pre class="code-block"><code id="code-snippet"># Đoạn code lỗi của học viên:
+def run_react_agent(user_query, tools):
+    # Lần 1: Gọi model lấy Action & Tool Input
+    action = llm.invoke(f"Query: {user_query}")
+    tool_result = execute_tool(action.tool_name, action.tool_input)
+    
+    # ❌ LỖI Ở ĐÂY: Gửi lại request độc lập mà KHÔNG truyền lịch sử / scratchpad
+    final_ans = llm.invoke(f"Tool returned: {tool_result}")
+    return final_ans</code></pre>
+        </div>
+
+        <!-- Student Input Form -->
+        <div class="student-input-area">
+          <div class="input-group">
+            <label for="student-answer">
+              <span class="label-num">1</span> Đề xuất giải pháp sửa code của bạn:
+            </label>
+            <textarea id="student-answer" rows="3" placeholder="Nhập cách bạn sửa đoạn logic trên..."></textarea>
+          </div>
+
+          <div class="input-group">
+            <label for="student-reasoning">
+              <span class="label-num">2</span> Lập luận tư duy (Tại sao bạn nghĩ giải pháp này đúng?):
+            </label>
+            <textarea id="student-reasoning" rows="2" placeholder="Giải thích ngắn mô hình tư duy của bạn..."></textarea>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-secondary" onclick="triggerStuck()">
+              🤷 Em chưa biết bắt đầu từ đâu
+            </button>
+            <button class="btn btn-primary" id="btn-submit" onclick="submitDiagnostic()">
+              <span>🚀 Nộp bài & AI Chẩn đoán</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: AI Diagnosis & Scaffolding Engine -->
+      <section class="card panel-response" id="response-panel">
+        
+        <!-- State 0: Empty state before submit -->
+        <div class="state-container" id="state-idle">
+          <div class="idle-graphic">🤖</div>
+          <h3>AI Diagnostic Engine đang sẵn sàng</h3>
+          <p>Hãy nhập câu trả lời hoặc chọn một kịch bản thử nghiệm ở thanh phía trên để xem cơ chế <strong>Gợi mở bậc thang (Scaffolding Hints)</strong> hoạt động.</p>
+        </div>
+
+        <!-- State 1: Error Diagnosis & Scaffolding Hints -->
+        <div class="state-container hidden" id="state-diagnosis">
+          <div class="diagnosis-header" id="diag-badge-container">
+            <!-- Dynamic Badges -->
+          </div>
+
+          <!-- Diagnosis Summary Box -->
+          <div class="diagnosis-box" id="diag-summary-box">
+            <div class="diag-title" id="diag-title">🔍 Phát hiện ngộ nhận trong lập luận</div>
+            <p id="diag-desc">Học viên đang nhầm lẫn bản chất hoạt động của LLM API.</p>
+          </div>
+
+          <!-- Scaffolding Stepper Accordion -->
+          <div class="scaffolding-container">
+            <div class="scaffold-heading">
+              <span>🧩 Nấc thang gợi mở (Không lộ đáp án)</span>
+              <span class="badge badge-amber" id="hint-level-badge">Nấc 1 / 3</span>
+            </div>
+
+            <!-- Level 1 Hint -->
+            <div class="hint-card active" id="hint-card-1">
+              <div class="hint-card-header">
+                <div class="hint-title">
+                  <span class="hint-num">1</span>
+                  <strong>Chỉ ra Tiền đề / Giả định sai</strong>
+                </div>
+                <span class="hint-tag">Reflection Hint</span>
+              </div>
+              <div class="hint-body" id="hint-1-content">
+                Em đang giả định rằng LLM tự lưu trạng thái giữa các lần <code>llm.invoke()</code>. Nhưng thực tế mỗi lệnh gọi API hoàn toàn <strong>Stateless (Không lưu trạng thái)</strong>.
+              </div>
+            </div>
+
+            <!-- Level 2 Hint -->
+            <div class="hint-card locked" id="hint-card-2">
+              <div class="hint-card-header">
+                <div class="hint-title">
+                  <span class="hint-num">2</span>
+                  <strong>Dẫn nguồn lý thuyết & Tài liệu khóa học</strong>
+                </div>
+                <button class="btn-unlock" onclick="unlockHint(2)">Mở gợi ý nấc 2 🔓</button>
+              </div>
+              <div class="hint-body hidden" id="hint-2-content">
+                <div class="citation-box">
+                  <div class="citation-source">📖 Slide 14 · Kiến trúc ReAct (Thought - Action - Observation Loop)</div>
+                  <blockquote>"LLM cần được tiếp nhận toàn bộ chuỗi <code>User Query + Intermediate Steps (Thought/Action/Observation)</code> trong prompt ở mỗi vòng lặp để biết mình đang ở bước nào."</blockquote>
+                </div>
+              </div>
+            </div>
+
+            <!-- Level 3 Hint -->
+            <div class="hint-card locked" id="hint-card-3">
+              <div class="hint-card-header">
+                <div class="hint-title">
+                  <span class="hint-num">3</span>
+                  <strong>Câu hỏi phân rã hành động (Sub-problem Probing)</strong>
+                </div>
+                <button class="btn-unlock" onclick="unlockHint(3)">Mở gợi ý nấc 3 🔓</button>
+              </div>
+              <div class="hint-body hidden" id="hint-3-content">
+                <div class="probing-box">
+                  💡 Thay vì gọi <code>llm.invoke(f"Tool returned: {tool_result}")</code>, em hãy thử tạo 1 biến danh sách <code>messages = [user_query]</code> và <code>append</code> kết quả từng bước vào đó trước khi gọi lại model?
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Self-Correction CTA -->
+          <div class="correction-footer">
+            <button class="btn btn-outline" onclick="requestDirectAnswer()">
+              ⚠️ Cho tôi đáp án luôn đi
+            </button>
+            <button class="btn btn-success" onclick="applyCorrectionAndRecheck()">
+              ✍️ Tôi đã hiểu, để tôi sửa lại bài
+            </button>
+          </div>
+        </div>
+
+        <!-- State 2: Reverse Probing (When Correct) -->
+        <div class="state-container hidden" id="state-probing">
+          <div class="success-banner">
+            <span class="trophy">🎯</span>
+            <div>
+              <h3>Chính xác! Bạn đã tìm ra giải pháp đúng</h3>
+              <p>Nhưng để chắc chắn bạn không chỉ nhớ vẹt, hãy thử sức với câu hỏi phản biện sau:</p>
+            </div>
+          </div>
+
+          <div class="probing-challenge-card">
+            <div class="probing-header">
+              <span class="badge badge-purple">⚡ Reverse-Probing Engine</span>
+              <span>Đánh giá mức độ hiểu sâu</span>
+            </div>
+            <div class="probing-question" id="probing-q-text">
+              "Nếu chuỗi Thought - Action - Observation này lặp lại 15 vòng và vượt quá Context Window (vd 4k tokens), đoạn code của bạn sẽ xử lý thế nào để không crash?"
+            </div>
+            
+            <div class="probing-response-area">
+              <textarea id="probing-answer" rows="3" placeholder="Nhập câu trả lời phản biện của bạn (VD: Áp dụng Rolling Window / Summarization Memory)..."></textarea>
+              <button class="btn btn-primary" onclick="submitProbing()">Gửi phản biện</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- State 3: Mastery & Knowledge Note Summary -->
+        <div class="state-container hidden" id="state-summary">
+          <div class="mastery-card">
+            <div class="mastery-header">
+              <span class="badge badge-gold">🏆 Hoàn thành Thử thách Chẩn đoán</span>
+              <h2>Bản đồ Kiến thức Đúc kết từ Lỗi sai</h2>
+            </div>
+            
+            <div class="summary-grid">
+              <div class="summary-item error-origin">
+                <div class="item-label">❌ Lỗi sai ban đầu</div>
+                <div class="item-value">Ngộ nhận API tự động nhớ ngữ cảnh qua các lượt gọi hàm.</div>
+              </div>
+              <div class="summary-item concept-learned">
+                <div class="item-label">💡 Bản chất đã hiểu</div>
+                <div class="item-value">ReAct Agent là vòng lặp tích lũy Scratchpad (Thought + Action + Observation) vào Messages List.</div>
+              </div>
+            </div>
+
+            <div class="key-takeaways">
+              <h4>📌 3 Điểm cốt lõi cần nhớ cho bài Lab tiếp theo:</h4>
+              <ul>
+                <li>API LLM là <strong>Stateless</strong> — client chịu trách nhiệm bảo toàn memory.</li>
+                <li>Mỗi công cụ trả về phải được bọc trong vai trò <code>ToolMessage</code> hoặc định dạng rõ ràng trong Prompt.</li>
+                <li>Luôn có điều kiện dừng (Max Iterations) để tránh lặp vô tận.</li>
+              </ul>
+            </div>
+
+            <div class="summary-actions">
+              <button class="btn btn-outline" onclick="resetDemo()">🔄 Thử lại kịch bản khác</button>
+              <button class="btn btn-primary" onclick="alert('Đã mở khóa bài học tiếp theo trên VLearn!')">
+                🚀 Vào bài học tiếp theo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guardrail Modal / Toast Alert -->
+        <div class="guardrail-toast hidden" id="guardrail-toast">
+          <div class="toast-icon">🛡️</div>
+          <div class="toast-content">
+            <strong>Rào cản AI (Anti-Spoil Guardrail):</strong>
+            <p>Hệ thống không cung cấp đáp án trực tiếp để bảo vệ năng lực tự tư duy của bạn. Hãy sử dụng các Nấc gợi ý ở trên!</p>
+          </div>
+          <button class="toast-close" onclick="closeToast()">✕</button>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <span>Mini Hackathon AI Batch 04 · Lớp 3B · Phòng E402 · Nhóm <strong>BaConSau</strong></span>
+    <span>Deliverable <strong>CP2 Interactive Prototype</strong> (Chạy mô phỏng không cần backend)</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
