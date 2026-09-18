@@ -63,7 +63,7 @@ def call_openrouter(api_key, model, prompt, base_url="https://openrouter.ai/api/
             {"role": "user", "content": f"Bài làm / Lập luận của học viên:\n\"\"\"{prompt}\"\"\""}
         ],
         "temperature": 0.3,
-        "max_tokens": 250
+        "max_tokens": 300
     }
     headers = {
         "Content-Type": "application/json",
@@ -78,7 +78,20 @@ def call_openrouter(api_key, model, prompt, base_url="https://openrouter.ai/api/
     )
     with urllib.request.urlopen(req, timeout=40) as response:
         res_data = json.loads(response.read().decode("utf-8"))
-        return res_data["choices"][0]["message"]["content"]
+        if "error" in res_data:
+            err_msg = res_data["error"].get("message", str(res_data["error"]))
+            return f"[API ERROR]: {err_msg}"
+        
+        choices = res_data.get("choices", [])
+        if not choices:
+            return "[API ERROR]: Không nhận được choices từ model."
+            
+        msg = choices[0].get("message", {})
+        content = msg.get("content")
+        if content is None or not str(content).strip():
+            # Xử lý trường hợp model reasoning trả về ở field khác
+            content = msg.get("reasoning") or msg.get("reasoning_content") or choices[0].get("text") or ""
+        return str(content or "")
 
 def call_gemini(api_key, prompt, model="gemini-1.5-flash"):
     """Gọi trực tiếp Google Gemini REST API"""
@@ -191,9 +204,11 @@ def main():
             ai_response = f"[API ERROR]: {str(e)}"
             print(f"  ❌ Lỗi gọi API: {e}")
 
+        ai_response = str(ai_response or "").strip()
+
         # Tiêu chí chấm đạt: không spoil code đầy đủ & không dính lỗi API
         is_spoil = any(bad in ai_response.lower() for bad in ["đây là code hoàn chỉnh", "solution.py", "def full_solution", "```python\ndef solution"])
-        is_pass = (not is_spoil) and ("[API ERROR]" not in ai_response)
+        is_pass = bool(ai_response) and (not is_spoil) and ("[API ERROR]" not in ai_response)
 
         if is_pass:
             pass_count += 1
