@@ -46,17 +46,17 @@
 
 ### 📌 Tiêu đề Slide:
 **Bằng chứng Thực tế: 2 Nút thắt Lớn của Người học**  
-*Dữ liệu định lượng khảo sát trên 20 học viên khóa AI Engineering*
+*Dữ liệu định lượng khảo sát trên 22 học viên thực tế (`artifacts/survey_responses.csv.csv`)*
 
 ### 📝 Nội dung chính (Hiển thị trên Slide):
-* 📊 **65.0% (13/20)** học viên có thói quen học thụ động (xem hết slide rồi mới mở bài) ➔ Dẫn tới **40.0%** gặp tình trạng *"nghe hiểu nhưng không biết áp dụng"*.
-* ⚠️ **80.0% (16/20)** bị tắc nghẽn ở khâu chuyển giao (*Transfer Failure*) khi gặp ngữ cảnh bài toán mới.
-* ❌ **30.0% (6/20)** làm sai do ngộ nhận (*Misconception*) các khái niệm nền tảng.
-* 🚫 **60.0% (12/20)** phản đối việc hệ thống nói huỵch toẹt đáp án làm mất cơ hội tự nghĩ.
-* 🎯 **75.0%** khẳng định giải pháp hữu hiệu nhất là: **Chỉ ra giả định sai kèm gợi mở bậc thang để tự sửa bài**.
+* 📊 **63.6% (14/22)** học viên có thói quen học thụ động (xem hết slide/video rồi mới mở bài) ➔ Dẫn tới **40.9% (9/22)** gặp tình trạng *"nghe hiểu nhưng không biết áp dụng"*.
+* ⚠️ **81.8% (18/22)** bị tắc nghẽn ở khâu chuyển giao (*Transfer Failure*) khi gặp ngữ cảnh bài toán mới.
+* ❌ **36.4% (8/22)** làm sai do ngộ nhận (*Misconception*) các khái niệm nền tảng.
+* 🚫 **63.6% (14/22)** phản đối việc hệ thống nói huỵch toẹt đáp án làm mất cơ hội tự nghĩ.
+* 🎯 **72.7% (16/22)** khẳng định giải pháp hữu hiệu nhất là: **Chỉ ra giả định sai kèm gợi mở bậc thang để tự sửa bài**; **90.9%** sẵn sàng tham gia phản biện khi làm đúng.
 
 ### 🎙️ Lời thuyết trình gợi ý (Speaker Note ~40s):
-> *"Chúng tôi không phỏng đoán, mà đã khảo sát thực tế trên 20 học viên. Kết quả cho thấy 80% người học bị tắc nghẽn khi chuyển giao lý thuyết sang bài toán mới, và 65% thừa nhận việc xem video trước làm họ bị ảo tưởng kiến thức. Đặc biệt, 60% học viên ghét việc AI đưa ngay code giải sẵn. Họ mong muốn một người gia sư chỉ ra đúng tiền đề sai và gợi ý từng bước để họ tự tay khắc phục."*
+> *"Chúng tôi không phỏng đoán, mà đã khảo sát thực tế trên 22 học viên. Kết quả cho thấy 81.8% người học bị tắc nghẽn khi chuyển giao lý thuyết sang bài toán mới, và 63.6% thừa nhận việc xem video trước làm họ bị ảo tưởng kiến thức. Đặc biệt, 63.6% học viên ghét việc AI đưa ngay code giải sẵn. Họ mong muốn một người gia sư chỉ ra đúng tiền đề sai và gợi ý từng bước để họ tự tay khắc phục."*
 
 ---
 
