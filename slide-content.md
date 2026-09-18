@@ -131,8 +131,9 @@
 
 ### 📝 Nội dung chính (Hiển thị trên Slide):
 * 👥 **Kết quả thử nghiệm trên Willing Users (R6 Validation):**
-  * **Hoàng Minh Tuấn (Học viên AI):** *"Gợi ý nấc 1 chỉ ra lỗi stateless rất chuẩn, làm mình phải tự lật lại Slide 34 để đọc thay vì lướt qua."*
-  * **Trần Hải Yến (Học viên AI):** *"Thích nhất phần Phản biện ngược khi làm đúng, giúp mình hiểu thêm về rủi ro tràn Context Window khi chạy Agent thực tế."*
+  * **Nguyễn Khánh Đô (Học viên AI K4):** *"Gợi ý nấc 1 chỉ ra lỗi stateless rất chuẩn, làm mình phải tự lật lại Slide 34 để đọc thay vì lướt qua."*
+  * **Phùng Đình Triển (Học viên AI K4):** *"Thích nhất phần Phản biện ngược khi làm đúng, giúp mình hiểu thêm về rủi ro tràn Context Window khi chạy Agent thực tế."*
+  * **Nguyễn Thị Lê Na (Học viên AI K4):** *"Lá chắn Anti-Spoil giữ vững nguyên tắc sư phạm, gợi mở tư duy thay vì đưa sẵn code giải."*
 * 🚀 **Tiềm năng mở rộng (Scale Roadmap):**
   * Tự động sinh Thử thách Chẩn đoán cho toàn bộ 19 bài học trên VLearn bằng RAG Pipeline.
   * Tích hợp Dashboard theo dõi bản đồ lỗ hổng kiến thức của từng học viên cho giảng viên.

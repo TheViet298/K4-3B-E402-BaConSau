@@ -1,30 +1,30 @@
 # AI SPEC — Thử thách Chẩn đoán & Gợi mở Sư phạm Thích ứng · Nhóm BaConSau · Zone 2 (Cụm C4)
-Hướng: [ ] A — VLearn  [x] B — Trợ lý Học viên  [ ] C — Làn mở  
-Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
+Hướng: [x] A — VLearn  [ ] B — Trợ lý Học viên  [ ] C — Làn mở  
+Loại: [x] Tối ưu tính năng có sẵn  [ ] Tính năng mới
 
 ---
 
 ## §1. User & Job
 - **Job executor + workflow (đính kèm worksheet JTBD / ảnh sơ đồ):**
-  - *Job executor:* Học viên các khóa học AI/GenAI trên VLearn (ví dụ: Module LLM Application Engineering) chuẩn bị vào một bài học mới (Lát cắt: Bài 3 · Chatbot vs ReAct Agent), muốn học chủ động và tự mình làm chủ code thay vì xem thụ động slide/video.
-  - *Workflow:* Vào bài học mới $\rightarrow$ Làm Thử thách Chẩn đoán (Diagnostic Challenge) ngắn trước khi đọc lý thuyết $\rightarrow$ Nộp đề xuất sửa code & Lập luận tư duy $\rightarrow$ Nhận chẩn đoán lỗi từ AI Tutor (Phân loại: Ngộ nhận khái niệm vs Tắc nghẽn chuyển giao) $\rightarrow$ Khám phá nguyên lý qua Thang 3 bậc gợi mở sư phạm (Reflection $\rightarrow$ Slide Citation $\rightarrow$ Action Nudge) $\rightarrow$ Tự sửa code $\rightarrow$ Vượt qua Phản biện ngược (Reverse-Probing) về tình huống biên (Context Window Overflow) $\rightarrow$ Nhận Bản đồ đúc kết cá nhân hóa & Mở khóa bài giảng chuyên sâu.
+  - *Job executor:* Học viên các khóa AI/GenAI trên VLearn (cụ thể: Bài 3 · Xây dựng Vòng lặp ReAct Agent), muốn tự tay gõ code và hiểu bản chất bài học thay vì chỉ xem video hay đọc slide một cách thụ động.
+  - *Workflow:* Vào bài học mới $\rightarrow$ Làm thử thách chẩn đoán ngắn (Diagnostic Challenge) trước khi học lý thuyết $\rightarrow$ Nhập phương án sửa code & lý do $\rightarrow$ Nhận AI Tutor chẩn đoán lỗi (Sai khái niệm hay Sai cú pháp nối code) $\rightarrow$ Xem gợi ý mở dần 3 nấc (Gợi ý tư duy $\rightarrow$ Trích dẫn Slide 34 $\rightarrow$ Gợi ý hành động) $\rightarrow$ Tự sửa và nộp lại code $\rightarrow$ Trả lời câu hỏi Phản biện ngược khi làm đúng (tình huống tràn Context Window) $\rightarrow$ Nhận tóm tắt đúc kết kiến thức & mở khóa học tiếp.
 - **Core JTBD (không tên sản phẩm/AI trong câu):**
-  Tự tin làm chủ và áp dụng kiến thức lập trình mới vào bài thực hành thực tế mà không bị ảo tưởng hiểu bài hay phụ thuộc vào đáp án giải sẵn.
+  Tự tin làm chủ và tự tay viết được code trong bài thực hành mới mà không bị ảo tưởng hiểu bài hay phụ thuộc vào đáp án giải sẵn.
 - **Problem statement (KHÔNG chữ AI):**
-  Học viên tiếp thu thụ động (xem video/đọc slide trước) dễ tạo **ảo tưởng hiểu bài** (*illusion of competence*); khi vào bài tập làm sai thì bị đưa đáp án ngay làm mất cơ hội tự tư duy, hoặc khi gặp bài có ngữ cảnh mới lạ thì không biết cách áp dụng lý thuyết để triển khai.
-- **Evidence (chuẩn A và/hoặc B — log đầy đủ trong repo):**
-  - **Số liệu mining / kết quả khảo sát (n = 20 học viên thực tế):**
-    - `65.0% (13/20)` có thói quen học thụ động (xem hết video/slide rồi mới mở bài tập), dẫn đến `40.0%` gặp tình trạng "nghe thì hiểu nhưng làm bài không biết áp dụng từ đâu".
-    - `80.0% (16/20)` bị tắc nghẽn ở khâu chuyển giao (*transfer failure*) kiến thức khi gặp ngữ cảnh mới; `30.0% (6/20)` làm sai do ngộ nhận (*misconception*) khái niệm nền tảng.
-    - `60.0% (12/20)` ghét việc hệ thống nói huỵch tẹt đáp án làm mất cơ hội tự nghĩ; `65.0% (13/20)` phản đối việc vứt cả đoạn lý thuyết dài mà không chỉ ra bước sai.
-    - `100%` từng dùng trợ lý ngoài hỏi bài, nhưng `35.0%` thấy bị làm mất khả năng tư duy vì giải hộ, `35.0%` gặp ảo giác sai kiến thức, `30.0%` gặp thuật ngữ xa lạ không khớp bài giảng.
-    - `75.0%` xác nhận giải pháp hiệu quả nhất là chỉ rõ giả định sai kèm gợi ý tự sửa; `90.0%` sẵn sàng tham gia phản biện (*reverse-probing*) khi làm đúng.
-  - **≥5 quote/ví dụ nguyên văn + nguồn:**
-    1. *"Em xem video thấy thầy giải ReAct Loop hiểu lắm, nhưng lúc tự gõ bài tập thì không biết phải lưu biến tin nhắn ở đâu để lần gọi sau model không quên câu hỏi ban đầu."* — Học viên K4 (Discord `#lab-support`).
-    2. *"Nhiều lúc làm sai có mỗi lỗi format ToolMessage mà bot trợ giảng vứt nguyên cả file code mẫu, xem xong thì copy luôn chứ chả buồn nghĩ nữa."* — Học viên Nguyễn Minh Quân (Khảo sát CP1).
-    3. *"Mình muốn biết tại sao mình nghĩ sai, cái giả định của mình sai ở chỗ nào trong kiến trúc Stateless của REST API, chứ không phải quăng cho mình 1 đoạn code chạy được."* — Học viên Trần Hải Yến (Khảo sát CP1).
-    4. *"Làm xong bài tập mà không có ai hỏi vặn lại xem nếu context window bị tràn 15 vòng lặp thì code có crash không, nên đi phỏng vấn bị hỏi câu biên là tịt ngòi."* — Học viên Hoàng Minh Tuấn (Phỏng vấn R6).
-    5. *"Mỗi lần gặp lỗi Invalid Message Format là phải chờ mentor cả tiếng đồng hồ trên Discord mới được chỉ cho đúng chỗ thiếu tool_call_id."* — Học viên Lê Đức Anh (Khảo sát CP1).
+  Học viên tiếp thu thụ động (xem video/đọc slide trước) dễ tạo **ảo tưởng hiểu bài** (*nghĩ là mình đã hiểu nhưng khi tự gõ code thì tắc tịt*); khi làm sai thì bị đưa đáp án ngay làm mất cơ hội tự nghĩ, hoặc khi gặp bài có ngữ cảnh mới lạ thì không biết cách áp dụng lý thuyết để tự giải quyết.
+- **Evidence (chuẩn A và/hoặc B — log đầy đủ trong repo `artifacts/survey_responses.csv.csv`):**
+  - **Số liệu mining / kết quả khảo sát (n = 22 học viên thực tế):**
+    - `63.6% (14/22)` có thói quen học thụ động (xem hết video/slide rồi mới mở bài tập), dẫn đến `40.9% (9/22)` gặp tình trạng *"nghe hiểu lý thuyết lúc xem nhưng khi bắt tay vào làm bài thì không biết áp dụng từ đâu"*.
+    - `81.8% (18/22)` bị tắc nghẽn khi gặp ngữ cảnh mới lạ (*"hiểu khái niệm nhưng đề bài cho ngữ cảnh mới lạ nên không biết cách chuyển giao (transfer)"*); `36.4% (8/22)` làm sai do ngộ nhận (*"tưởng mình hiểu đúng lý thuyết, nhưng thực ra bị ngộ nhận hiểu lệch khái niệm nền tảng"*).
+    - `63.6% (14/22)` ghét việc *"nói huỵch tẹt đáp án ra ngay lập tức khiến mình mất cơ hội tự nghĩ"*; `63.6% (14/22)` phản đối việc *"đưa ra một đoạn lý thuyết dài dằng dặc copy từ sách mà không chỉ ra đúng bước mình làm sai"*.
+    - `100% (22/22)` từng dùng AI hỏi bài tập, nhưng `36.4% (8/22)` thấy *"AI giải luôn ra code/đáp án, làm mình lười tư duy và đi thi vẫn không làm được"*, `36.4% (8/22)` gặp ảo giác sai kiến thức, `27.3% (6/22)` gặp *"AI giải thích vòng vo, dùng thuật ngữ xa lạ không khớp với slide của thầy cô"*.
+    - `72.7% (16/22)` xác nhận giải pháp hiệu quả nhất là *"chỉ rõ cho bạn giả định sai kèm 1 câu hỏi gợi ý để bạn tự sửa"*; `90.9% (20/22)` sẵn sàng trả lời câu hỏi phản biện khi làm đúng; `86.4% (19/22)` ủng hộ phương pháp làm bài kiểm tra ngắn trước khi vào học lý thuyết.
+  - **≥5 quote/ví dụ nguyên văn trích từ khảo sát (`artifacts/survey_responses.csv.csv`):**
+    1. *"Nghe hiểu lý thuyết lúc xem nhưng khi bắt tay vào làm bài thì không biết áp dụng từ đâu."* — Học viên K4 (Khảo sát, Dòng 3).
+    2. *"AI giải luôn ra code/đáp án, làm mình lười tư duy và đi thi vẫn không làm được."* — Học viên Nguyễn Thị Lê Na (Khảo sát, Dòng 6).
+    3. *"Nói huỵch tẹt đáp án ra ngay lập tức khiến mình mất cơ hội tự nghĩ."* — Học viên Nguyễn Khánh Đô (Khảo sát, Dòng 9).
+    4. *"Đưa ra một đoạn lý thuyết dài dằng dặc copy từ sách mà không chỉ ra đúng bước mình làm sai."* — Học viên Phùng Đình Triển (Khảo sát, Dòng 2).
+    5. *"AI giải thích vòng vo, dùng thuật ngữ xa lạ không khớp với slide của thầy cô trên lớp."* — Học viên K4 (Khảo sát, Dòng 4).
 
 ---
 
@@ -33,29 +33,29 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
 
 | Ứng viên ý tưởng | Đối tượng & Quy mô | Tần suất gặp | Chi phí tốn kém mỗi lần | Tính khả thi (24h) |
 | :--- | :--- | :--- | :--- | :--- |
-| **Ứng viên 1:** Trợ lý tóm tắt bài giảng video (Lecture Summarizer) | 15 học viên/lớp | 1 lần/bài học | Mất 15-20 phút đọc tóm tắt thụ động | Rất cao (dễ làm) |
-| **Ứng viên 2:** Trợ lý giải bài tập tự động (Auto Code Solver) | 20 học viên/lớp | 3-5 lần/buổi lab | 30-45 phút bế tắc debug | Rất cao |
-| **Ứng viên 3 (CHỌN):** Trợ lý Chẩn đoán Lỗi trước & Gợi mở Sư phạm (Active Diagnostic & Scaffolding Tutor) | 20 học viên/lớp | 4-6 lần/buổi học | 35-45 phút chờ mentor giải đáp; mất cơ hội rèn tư duy phản biện | Khả thi cao với lát cắt hẹp |
+| **Ứng viên 1:** Bot tóm tắt slide/video bài giảng | 15 học viên/lớp | 1 lần/bài học | Mất 15-20 phút đọc tóm tắt thụ động | Rất cao (dễ làm) |
+| **Ứng viên 2:** Bot giải bài tập tự động (Auto Solver) | 20 học viên/lớp | 3-5 lần/buổi lab | 30-45 phút bế tắc debug | Rất cao |
+| **Ứng viên 3 (CHỌN):** Gia sư Chẩn đoán Lỗi trước & Gợi mở Sư phạm (Active Diagnostic Tutor) | 20 học viên/lớp | 4-6 lần/buổi học | 35-45 phút chờ mentor giải đáp; mất cơ hội tự rèn luyện tư duy | Khả thi cao với lát cắt hẹp |
 
 - **Ứng viên ĐÃ LOẠI + vì sao:**
-  - *Loại Ứng viên 1:* Chỉ dừng lại ở việc đọc tóm tắt, củng cố thói quen học thụ động, không giải quyết được "ảo tưởng hiểu bài" và lỗ hổng khi bắt tay viết code.
-  - *Loại Ứng viên 2:* Đưa ngay code giải mẫu hoàn chỉnh triệt tiêu tư duy phản biện của học viên, vi phạm tôn chỉ giáo dục của VLearn.
+  - *Loại Ứng viên 1:* Chỉ dừng ở đọc tóm tắt, củng cố thói quen học thụ động, không giúp học viên tự tay viết được code.
+  - *Loại Ứng viên 2:* Đưa sẵn lời giải làm học viên lười tư duy, học vẹt, đi ngược lại triết lý đào tạo thực chiến của VLearn.
 - **Ứng viên CHỌN + vì sao (bằng số):**
-  - **Chọn Ứng viên 3:** Giải quyết trúng đích `80.0%` học viên bị tắc nghẽn chuyển giao và `75.0%` học viên mong muốn được chỉ rõ tiền đề sai. Giúp giảm thời gian chờ đợi hỗ trợ từ **35-45 phút xuống dưới 3 phút**, nâng tỷ lệ tự hoàn thành lab độc lập từ **42% lên ≥ 75%**, và kiểm tra chiều sâu tư duy bằng phản biện ngược đạt **≥ 80%**.
+  - **Chọn Ứng viên 3:** Giải quyết trúng `81.8%` học viên bị tắc khi tự làm bài và `72.7%` học viên muốn được chỉ lỗi sai để tự sửa. Giúp giảm thời gian chờ đợi hỗ trợ từ **35-45 phút xuống dưới 3 phút**, nâng tỷ lệ tự hoàn thành bài lab độc lập từ **42% lên ≥ 75%**, và kiểm tra độ hiểu sâu qua phản biện ngược đạt **≥ 80%**.
 
 ---
 
 ## §3. Giải pháp tương tự đã nghiên cứu
 - **Khanmigo (Khan Academy):**
-  - *Flow:* Sử dụng phong cách Socratic để gợi ý từng bước trong môn Toán/Khoa học.
-  - *Đáng học:* Nguyên tắc sư phạm kiên quyết không cho đáp án trực tiếp.
-  - *Đáng né:* Phản hồi bằng câu hỏi quá chung chung, không gắn chặt vào ngữ cảnh kỹ thuật dòng code của học viên.
-  - *Mình khác gì:* Phân loại rạch ròi giữa *Ngộ nhận khái niệm (Misconception)* và *Tắc nghẽn chuyển giao (Transfer Failure)*; neo trực tiếp vào Slide 34 của bài giảng và bắt buộc có bước *Phản biện ngược (Reverse-Probing)*.
-- **GitHub Copilot / ChatGPT Code Assistant:**
-  - *Flow:* Đọc prompt/code của người dùng và tự động sinh toàn bộ đoạn code giải tiếp theo.
-  - *Đáng học:* Khả năng phân tích cú pháp code nhanh, phản hồi tức thì.
-  - *Đáng né:* Spoil luôn đáp án, biến người học thành "thợ copy-paste" thụ động.
-  - *Mình khác gì:* Tích hợp "Lá chắn chống Spoil" (Anti-Spoil Guardrail), chỉ đưa giàn giáo gợi mở (Scaffolding hints) qua 3 nấc để học viên tự sửa.
+  - *Cách làm:* Dùng câu hỏi gợi ý để học sinh tự làm bài môn Toán/Khoa học.
+  - *Đáng học:* Kiên quyết không đưa sẵn đáp án cho học sinh chép.
+  - *Đáng né:* Câu hỏi gợi mở còn chung chung, không gắn chặt vào từng dòng code thực tế của học viên.
+  - *Mình khác biệt:* Chẩn đoán rạch ròi lỗi sai bản chất vs lỗi cú pháp; trích dẫn chính xác trang Slide 34 của bài học và có thêm câu hỏi Phản biện ngược khi làm đúng.
+- **GitHub Copilot / ChatGPT:**
+  - *Cách làm:* Tự động sinh ra toàn bộ code giải khi người dùng gõ câu hỏi.
+  - *Đáng học:* Tốc độ phản hồi cực nhanh, bắt lỗi cú pháp tốt.
+  - *Đáng né:* Trả lời luôn đáp án, biến học viên thành thợ copy-paste, không hiểu bản chất luồng chạy.
+  - *Mình khác biệt:* Trang bị "Lá chắn chống Spoil" (Anti-Spoil Guardrail), kiên quyết không đưa code giải mà chỉ mở dần gợi ý qua 3 nấc để học viên tự làm.
 
 ---
 
@@ -136,9 +136,9 @@ Loại: [ ] Tối ưu tính năng có sẵn  [x] Tính năng mới
   - **Nguyễn Văn Giáp (Data & Tech Lead):** Khai thác bằng chứng dữ liệu Discord/Survey, xây dựng bộ Golden Set (`eval/golden_set.json`), viết script benchmark tự động (`eval/run_eval.py`, `eval/run_eval.js`), tích hợp Live OpenRouter API.
   - **Nguyễn Quang Đạo (UI/UX & Validation):** Thiết kế giao diện LMS Course Reader chuẩn chỉnh (`codebase/`), phụ trách điều phối và ghi nhận biên bản kiểm thử người dùng thực tế (`validation/`).
 - **Willing users (≥2 tên) + kế hoạch vòng validation *(bonus, nếu làm)*:**
-  1. *Hoàng Minh Tuấn (Học viên AI K4):* Kiểm thử kịch bản mắc lỗi Misconception (TC01) và trải nghiệm thang 3 bậc gợi mở.
-  2. *Trần Hải Yến (Học viên AI K4):* Kiểm thử kịch bản làm đúng (TC16) và phản biện câu hỏi Context Window Overflow.
-  3. *Lê Đức Anh (Học viên AI K4):* Kiểm thử lá chắn chống Spoil (TC19) và giao diện trên màn hình laptop nhỏ.
+  1. *Nguyễn Khánh Đô (Học viên AI K4):* Kiểm thử kịch bản mắc lỗi Misconception (TC01) và trải nghiệm thang 3 bậc gợi mở.
+  2. *Phùng Đình Triển (Học viên AI K4):* Kiểm thử kịch bản làm đúng (TC16) và phản biện câu hỏi Context Window Overflow.
+  3. *Nguyễn Thị Lê Na (Học viên AI K4):* Kiểm thử tính năng Anti-Spoil Guardrails và điều hướng đọc tài liệu Slide 34.
   - *Kế hoạch:* Tiến hành phỏng vấn đo CSAT và ghi nhận log tương tác tại `validation/` trước 22:00 ngày 18/9.
 - **Multi-prototype (nếu làm): trục khác biệt của ≥2 phương án + lý do chọn:**
   - *Phương án A (Chatbot Drawer truyền thống):* Chat tự do như ChatGPT $\rightarrow$ Bị loại vì học viên dễ lan man và đòi code giải.
