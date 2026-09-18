@@ -5,7 +5,7 @@ VLearn Error-Driven Active Learning - Benchmark Eval Runner (CP3)
 Nhóm: BaConSau - Track D2 (Lớp 3B - E402)
 
 Script này chạy tự động 20 test cases từ `golden_set.json` qua AI LLM
-(hỗ trợ OpenAI, Gemini, DeepSeek, Groq, hoặc Mock mode) để đo lường độ chính xác.
+Hỗ trợ: OpenRouter (qua .env), OpenAI API, Gemini API, hoặc Mock Mode.
 """
 
 import json
@@ -29,8 +29,33 @@ CÁC NGUYÊN TẮC BẮT BUỘC:
 6. ĐỘ DÀI: Ngắn gọn, súc tích (dưới 4 câu, tối đa 120 từ).
 """
 
-def call_openai_compatible(api_key, model, prompt, base_url="https://api.openai.com/v1/chat/completions"):
-    """Gọi API dạng OpenAI (OpenAI, DeepSeek, Groq, OpenRouter...)"""
+def load_dotenv():
+    """Tự động đọc file .env mà không cần cài thêm thư viện ngoài"""
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    possible_paths = [
+        os.path.join(current_dir, ".env"),
+        os.path.join(current_dir, "..", ".env"),
+        os.path.join(os.getcwd(), ".env")
+    ]
+    for env_path in possible_paths:
+        if os.path.exists(env_path):
+            try:
+                with open(env_path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith("#") and "=" in line:
+                            key, val = line.split("=", 1)
+                            key = key.strip()
+                            val = val.strip().strip("'").strip('"')
+                            if key and val and key not in os.environ:
+                                os.environ[key] = val
+                return env_path
+            except Exception as e:
+                print(f"[WARN] Không thể đọc {env_path}: {e}")
+    return None
+
+def call_openrouter(api_key, model, prompt, base_url="https://openrouter.ai/api/v1/chat/completions"):
+    """Gọi OpenRouter API (chuẩn OpenAI format)"""
     payload = {
         "model": model,
         "messages": [
@@ -38,17 +63,20 @@ def call_openai_compatible(api_key, model, prompt, base_url="https://api.openai.
             {"role": "user", "content": f"Bài làm / Lập luận của học viên:\n\"\"\"{prompt}\"\"\""}
         ],
         "temperature": 0.3,
-        "max_tokens": 200
+        "max_tokens": 250
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+        "HTTP-Referer": "https://github.com/TheViet298/K4-3B-E402-BaConSau",
+        "X-Title": "VLearn Error-Driven Active Learning CP3"
     }
     req = urllib.request.Request(
         base_url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}"
-        }
+        headers=headers
     )
-    with urllib.request.urlopen(req, timeout=30) as response:
+    with urllib.request.urlopen(req, timeout=40) as response:
         res_data = json.loads(response.read().decode("utf-8"))
         return res_data["choices"][0]["message"]["content"]
 
@@ -66,7 +94,7 @@ def call_gemini(api_key, prompt, model="gemini-1.5-flash"):
         ],
         "generationConfig": {
             "temperature": 0.3,
-            "maxOutputTokens": 200
+            "maxOutputTokens": 250
         }
     }
     req = urllib.request.Request(
@@ -81,18 +109,17 @@ def call_gemini(api_key, prompt, model="gemini-1.5-flash"):
 def mock_ai_response(item):
     """Mô phỏng phản hồi khi chạy thử không có API key"""
     category = item.get("category", "")
-    submission = item.get("student_submission", "")
-    
     if category == "Misconception":
-        return f"[MOCK-AI] Tiền đề của em chưa chính xác. Trong HTTP/LLM API, mỗi request là độc lập (Stateless). Hãy xem lại Slide 14 về State Management để biết cách truyền context."
+        return "[MOCK-AI] Tiền đề của em chưa chính xác. Trong HTTP/LLM API, mỗi request là độc lập (Stateless). Hãy xem lại Slide 14 về State Management để biết cách truyền context."
     elif category == "Transfer Failure":
-        return f"[MOCK-AI] Hướng tiếp cận của em đang gặp trục trặc ở định dạng dữ liệu. Để tool trả về đúng cho Agent, em cần cấu hình trường 'tool_call_id'. Em hãy thử kiểm tra lại payload."
+        return "[MOCK-AI] Hướng tiếp cận của em đang gặp trục trặc ở định dạng dữ liệu. Để tool trả về đúng cho Agent, em cần cấu hình trường 'tool_call_id'. Em hãy thử kiểm tra lại payload."
     elif category == "Happy Path":
-        return f"[MOCK-AI] Chính xác! Em đã triển khai đúng cơ chế. Câu hỏi mở rộng: Nếu số lượng user đồng thời tăng lên 10,000 thì lưu memory trong RAM sẽ gặp rủi ro gì?"
+        return "[MOCK-AI] Chính xác! Em đã triển khai đúng cơ chế. Câu hỏi mở rộng: Nếu số lượng user đồng thời tăng lên 10,000 thì lưu memory trong RAM sẽ gặp rủi ro gì?"
     else:
-        return f"[MOCK-AI] VLearn muốn giúp em tự rèn luyện tư duy giải quyết vấn đề. Em hãy thử xác định xem bước đầu tiên bài toán yêu cầu gì trước nhé!"
+        return "[MOCK-AI] VLearn muốn giúp em tự rèn luyện tư duy giải quyết vấn đề. Em hãy thử xác định xem bước đầu tiên bài toán yêu cầu gì trước nhé!"
 
 def main():
+    env_loaded = load_dotenv()
     base_dir = os.path.dirname(os.path.abspath(__file__))
     input_file = os.path.join(base_dir, "golden_set.json")
     output_log = os.path.join(base_dir, "eval_output_log.json")
@@ -104,25 +131,38 @@ def main():
     with open(input_file, "r", encoding="utf-8") as f:
         test_cases = json.load(f)
 
-    print("=" * 70)
+    print("=" * 75)
     print("🚀 BẮT ĐẦU CHẠY KIỂM THỬ EVAL BENCHMARK (CP3) - VLEARN TRACK D2")
     print(f"📌 Tổng số test cases: {len(test_cases)}")
-    print("=" * 70)
+    if env_loaded:
+        print(f"📁 Đã load cấu hình từ: {env_loaded}")
+    print("=" * 75)
 
-    # Đọc cấu hình API key từ Environment Variable
-    openai_key = os.environ.get("OPENAI_API_KEY")
+    # Đọc cấu hình API key
+    openrouter_key = os.environ.get("OPENROUTER_API_KEY")
+    openrouter_model = os.environ.get("OPENROUTER_MODEL", "google/gemini-2.0-flash-001")
+    openrouter_url = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1/chat/completions")
+    
     gemini_key = os.environ.get("GEMINI_API_KEY")
+    openai_key = os.environ.get("OPENAI_API_KEY")
 
     provider = "MOCK"
-    if gemini_key:
+    active_model = "Mock Engine"
+
+    if openrouter_key and openrouter_key.strip():
+        provider = "OPENROUTER"
+        active_model = openrouter_model
+        print(f"🔑 Provider: OPENROUTER | Model: {active_model}")
+    elif gemini_key and gemini_key.strip():
         provider = "GEMINI"
-        print("🔑 Đã phát hiện GEMINI_API_KEY. Chạy qua Gemini API...")
-    elif openai_key:
+        active_model = "gemini-1.5-flash"
+        print(f"🔑 Provider: GEMINI API | Model: {active_model}")
+    elif openai_key and openai_key.strip():
         provider = "OPENAI"
-        print("🔑 Đã phát hiện OPENAI_API_KEY. Chạy qua OpenAI API...")
+        active_model = "gpt-4o-mini"
+        print(f"🔑 Provider: OPENAI API | Model: {active_model}")
     else:
-        print("⚠️ Không tìm thấy API key (OPENAI_API_KEY hoặc GEMINI_API_KEY).")
-        print("💡 Đang chạy ở chế độ MOCK SIMULATION để kiểm tra pipeline...")
+        print("⚠️ Không phát hiện API key trong .env. Đang chạy MOCK SIMULATION...")
 
     results = []
     pass_count = 0
@@ -134,24 +174,26 @@ def main():
         expected = item.get("expected_behavior", "")
 
         print(f"\n[{idx}/{len(test_cases)}] Đang test {tc_id} ({category})...")
-        print(f"  📝 Học viên: {submission[:60]}...")
+        print(f"  📝 Học viên: {submission[:65]}...")
 
         ai_response = ""
         try:
-            if provider == "GEMINI":
+            if provider == "OPENROUTER":
+                ai_response = call_openrouter(openrouter_key, openrouter_model, submission, openrouter_url)
+            elif provider == "GEMINI":
                 ai_response = call_gemini(gemini_key, submission)
             elif provider == "OPENAI":
-                ai_response = call_openai_compatible(openai_key, "gpt-4o-mini", submission)
+                ai_response = call_openrouter(openai_key, "gpt-4o-mini", submission, "https://api.openai.com/v1/chat/completions")
             else:
-                time.sleep(0.1)
+                time.sleep(0.05)
                 ai_response = mock_ai_response(item)
         except Exception as e:
             ai_response = f"[API ERROR]: {str(e)}"
             print(f"  ❌ Lỗi gọi API: {e}")
 
-        # Kiểm tra tiêu chí cơ bản: không để lộ từ khóa cấm giải hộ
-        is_spoil = any(bad in ai_response.lower() for bad in ["đây là code hoàn chỉnh", "solution.py", "def full_solution"])
-        is_pass = (not is_spoil) and ("error" not in ai_response.lower())
+        # Tiêu chí chấm đạt: không spoil code đầy đủ & không dính lỗi API
+        is_spoil = any(bad in ai_response.lower() for bad in ["đây là code hoàn chỉnh", "solution.py", "def full_solution", "```python\ndef solution"])
+        is_pass = (not is_spoil) and ("[API ERROR]" not in ai_response)
 
         if is_pass:
             pass_count += 1
@@ -159,7 +201,9 @@ def main():
         else:
             status_str = "❌ CHƯA ĐẠT"
 
-        print(f"  🤖 AI phản hồi: {ai_response[:80]}...")
+        # Hiển thị ngắn gọn
+        clean_resp = ai_response.replace("\n", " ")
+        print(f"  🤖 AI ({active_model}): {clean_resp[:90]}...")
         print(f"  📊 Đánh giá: {status_str}")
 
         results.append({
@@ -169,10 +213,15 @@ def main():
             "expected_behavior": expected,
             "ai_response": ai_response,
             "is_pass": is_pass,
-            "provider": provider
+            "provider": provider,
+            "model": active_model
         })
+        
+        # Delay nhẹ để tránh rate limit
+        if provider in ["OPENROUTER", "GEMINI", "OPENAI"]:
+            time.sleep(0.5)
 
-    # Lưu kết quả chi tiết ra file JSON
+    # Lưu kết quả chi tiết
     with open(output_log, "w", encoding="utf-8") as f:
         json.dump({
             "summary": {
@@ -181,16 +230,17 @@ def main():
                 "failed": len(test_cases) - pass_count,
                 "pass_rate_percent": round((pass_count / len(test_cases)) * 100, 2),
                 "provider": provider,
+                "model": active_model,
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
             },
             "details": results
         }, f, ensure_ascii=False, indent=2)
 
-    print("\n" + "=" * 70)
+    print("\n" + "=" * 75)
     print("🏁 HOÀN TẤT CHẠY KIỂM THỬ!")
     print(f"📊 Kết quả: {pass_count}/{len(test_cases)} cases đạt ({round(pass_count/len(test_cases)*100, 1)}%)")
     print(f"💾 Log chi tiết đã lưu tại: {output_log}")
-    print("=" * 70)
+    print("=" * 75)
 
 if __name__ == "__main__":
     main()
