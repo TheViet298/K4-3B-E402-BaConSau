@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VLearn Adaptive AI · Học từ lỗi trước (Track D2 Mockup)</title>
+  <title>VLearn Adaptive AI · Học từ lỗi trước (Track D2 Prototype)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Header Bar -->
   <header class="app-header">
     <div class="header-left">
-      <div class="brand-badge">Track D2 Prototype</div>
+      <div class="brand-badge">⚡ Track D2 · Active Learning Prototype</div>
       <div class="brand-title">
-        <span class="logo-icon">⚡</span>
-        <h1>VLearn <strong>Error-Driven Active Tutor</strong></h1>
+        <span class="logo-icon">✨</span>
+        <h1>VLearn <strong>Error-Driven AI Tutor</strong></h1>
       </div>
     </div>
+    
     <div class="header-center">
       <div class="stage-stepper">
         <div class="step-item active" id="step-nav-1" onclick="switchView('challenge')">
@@ -33,7 +34,7 @@
         <div class="step-divider"></div>
         <div class="step-item" id="step-nav-3" onclick="switchView('probing')">
           <span class="step-dot">3</span>
-          <span class="step-label">Phản biện (Reverse-Probing)</span>
+          <span class="step-label">Phản biện ngược</span>
         </div>
         <div class="step-divider"></div>
         <div class="step-item" id="step-nav-4" onclick="switchView('summary')">
@@ -42,7 +43,14 @@
         </div>
       </div>
     </div>
+    
     <div class="header-right">
+      <!-- AI Engine Mode Toggle -->
+      <div class="ai-mode-toggle" id="ai-mode-pill" onclick="toggleSettingsModal()">
+        <span class="mode-indicator" id="mode-status-dot"></span>
+        <span id="mode-label-text">⚡ Live AI (OpenRouter)</span>
+        <span class="settings-gear">⚙️</span>
+      </div>
       <div class="user-pill">
         <span class="status-indicator"></span>
         <span>Học viên: <strong>2A202602594</strong></span>
@@ -54,23 +62,59 @@
   <main class="main-container">
     <!-- Preset Banner -->
     <section class="scenario-bar">
-      <div class="scenario-title">
-        <span class="sparkle">🎯</span>
-        <span>Kịch bản thử nghiệm nhanh (Click để nạp case mẫu):</span>
+      <div class="scenario-left">
+        <div class="scenario-title">
+          <span class="sparkle">🎯</span>
+          <span>Kịch bản thử nghiệm nhanh:</span>
+        </div>
+        <div class="scenario-buttons">
+          <button class="btn-preset active" id="btn-case-misconception" onclick="loadScenario('misconception')">
+            <span class="tag tag-orange">TC01</span> Ngộ nhận Stateless
+          </button>
+          <button class="btn-preset" id="btn-case-transfer" onclick="loadScenario('transfer')">
+            <span class="tag tag-blue">TC08</span> Sai ToolMessage
+          </button>
+          <button class="btn-preset" id="btn-case-correct" onclick="loadScenario('correct')">
+            <span class="tag tag-green">TC16</span> Làm đúng → Phản biện
+          </button>
+          <button class="btn-preset" id="btn-case-cheating" onclick="loadScenario('cheating')">
+            <span class="tag tag-red">TC19</span> Thử xin đáp án
+          </button>
+        </div>
       </div>
-      <div class="scenario-buttons">
-        <button class="btn-preset active" onclick="loadScenario('misconception')">
-          <span class="tag tag-orange">Case 1</span> Ngộ nhận khái niệm (Misconception)
-        </button>
-        <button class="btn-preset" onclick="loadScenario('transfer')">
-          <span class="tag tag-blue">Case 2</span> Tắc nghẽn chuyển giao (Transfer Failure)
-        </button>
-        <button class="btn-preset" onclick="loadScenario('correct')">
-          <span class="tag tag-green">Case 3</span> Làm đúng → Phản biện ngược
-        </button>
-        <button class="btn-preset" onclick="loadScenario('cheating')">
-          <span class="tag tag-red">Guardrail</span> Thử xin đáp án trực tiếp
-        </button>
+      <div class="scenario-right">
+        <label for="golden-set-select" class="dropdown-label">📂 Chọn case từ Golden Set:</label>
+        <select id="golden-set-select" class="dropdown-select" onchange="loadGoldenSetCase(this.value)">
+          <option value="">-- Danh sách 20 Test Cases --</option>
+          <optgroup label="1. Ngộ nhận khái niệm (Misconception)">
+            <option value="TC01">TC01 - Stateless API tự nhớ context</option>
+            <option value="TC02">TC02 - Nhầm System Prompt & Few-shot</option>
+            <option value="TC03">TC03 - Tăng Temperature để hết Hallucinate</option>
+            <option value="TC04">TC04 - Nhầm Cosine Vector & Keyword Match</option>
+            <option value="TC05">TC05 - Giả định LLM tự chạy bash server</option>
+            <option value="TC06">TC06 - Context Window lớn nhớ hết ở giữa</option>
+            <option value="TC07">TC07 - Max cả Top-p và Temperature</option>
+          </optgroup>
+          <optgroup label="2. Tắc nghẽn chuyển giao (Transfer Failure)">
+            <option value="TC08">TC08 - Format sai ToolMessage payload</option>
+            <option value="TC09">TC09 - Quên Break condition ở ReAct loop</option>
+            <option value="TC10">TC10 - Chunking không overlap mất ngữ cảnh</option>
+            <option value="TC11">TC11 - Truyền cả Document Object vào Prompt</option>
+            <option value="TC12">TC12 - JSONDecodeError do markdown codeblock</option>
+            <option value="TC13">TC13 - Quên append history cho lượt chat mới</option>
+            <option value="TC14">TC14 - Return None khi tool lỗi làm sập agent</option>
+            <option value="TC15">TC15 - Quên giới hạn max_iterations</option>
+          </optgroup>
+          <optgroup label="3. Làm đúng hoàn toàn (Happy Path)">
+            <option value="TC16">TC16 - State Management với Session History</option>
+            <option value="TC17">TC17 - Đúng ReAct Tool Binding & Wrapped ID</option>
+            <option value="TC18">TC18 - Hybrid Search Dense + BM25 chuẩn</option>
+          </optgroup>
+          <optgroup label="4. Rào cản An toàn (Guardrail / Anti-Spoil)">
+            <option value="TC19">TC19 - Đòi xin code hoàn chỉnh trực tiếp</option>
+            <option value="TC20">TC20 - Prompt Injection bypass lấy solution</option>
+          </optgroup>
+        </select>
       </div>
     </section>
 
@@ -81,18 +125,21 @@
       <section class="card panel-challenge">
         <div class="card-header">
           <div class="header-meta">
-            <span class="badge badge-purple">Bài 4 · ReAct Agent Logic</span>
-            <span class="badge badge-subtle">Trước giờ lý thuyết</span>
+            <span class="badge badge-purple" id="challenge-topic-badge">Bài 4 · ReAct Agent Logic</span>
+            <span class="badge badge-subtle">Thử thách mở đầu bài</span>
           </div>
-          <h2>🔥 Thử thách Chẩn đoán: Debug luồng Tool Calling</h2>
-          <p class="challenge-desc">
+          <h2 id="challenge-main-title">🔥 Thử thách Chẩn đoán: Debug luồng Tool Calling</h2>
+          <p class="challenge-desc" id="challenge-desc-text">
             Đoạn code Agent dưới đây bị sụp đổ khi nhận câu hỏi cần gọi 2 công cụ liên tiếp (Multi-hop Query). Hãy phân tích nguyên nhân và đề xuất cách sửa.
           </p>
         </div>
 
         <div class="code-editor-box">
           <div class="editor-topbar">
-            <span class="file-name">agent_runner.py</span>
+            <div class="editor-tabs">
+              <span class="file-name active">agent_runner.py</span>
+              <span class="file-name" onclick="viewSlideModal()">📖 Slide 14 (Tài liệu tham khảo)</span>
+            </div>
             <span class="lang-tag">Python 3.11</span>
           </div>
           <pre class="code-block"><code id="code-snippet"># Đoạn code lỗi của học viên:
@@ -127,7 +174,8 @@ def run_react_agent(user_query, tools):
               🤷 Em chưa biết bắt đầu từ đâu
             </button>
             <button class="btn btn-primary" id="btn-submit" onclick="submitDiagnostic()">
-              <span>🚀 Nộp bài & AI Chẩn đoán</span>
+              <span id="btn-submit-spinner" class="spinner hidden"></span>
+              <span id="btn-submit-text">🚀 Nộp bài & AI Chẩn đoán</span>
             </button>
           </div>
         </div>
@@ -140,7 +188,24 @@ def run_react_agent(user_query, tools):
         <div class="state-container" id="state-idle">
           <div class="idle-graphic">🤖</div>
           <h3>AI Diagnostic Engine đang sẵn sàng</h3>
-          <p>Hãy nhập câu trả lời hoặc chọn một kịch bản thử nghiệm ở thanh phía trên để xem cơ chế <strong>Gợi mở bậc thang (Scaffolding Hints)</strong> hoạt động.</p>
+          <p>Hãy nhập câu trả lời hoặc chọn một kịch bản thử nghiệm ở thanh phía trên để xem cơ chế <strong>Gợi mở bậc thang (Scaffolding Hints)</strong> phân tích nguyên nhân gốc rễ mà <em>không giải hộ đáp án</em>.</p>
+          <div class="feature-pills">
+            <span class="pill">🛡️ Anti-Spoil Guard</span>
+            <span class="pill">🧩 3 Nấc Gợi mở Bậc thang</span>
+            <span class="pill">⚡ Reverse-Probing</span>
+          </div>
+        </div>
+
+        <!-- State Loading: AI Thinking Spinner -->
+        <div class="state-container hidden" id="state-loading">
+          <div class="ai-thinking-box">
+            <div class="pulsing-brain">🧠</div>
+            <h3>AI đang phân tích mô hình tư duy...</h3>
+            <p class="thinking-subtext">Đang đối chiếu với kiến trúc bài giảng và kiểm tra vi phạm ngộ nhận khái niệm...</p>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill"></div>
+            </div>
+          </div>
         </div>
 
         <!-- State 1: Error Diagnosis & Scaffolding Hints -->
@@ -153,6 +218,15 @@ def run_react_agent(user_query, tools):
           <div class="diagnosis-box" id="diag-summary-box">
             <div class="diag-title" id="diag-title">🔍 Phát hiện ngộ nhận trong lập luận</div>
             <p id="diag-desc">Học viên đang nhầm lẫn bản chất hoạt động của LLM API.</p>
+          </div>
+
+          <!-- Live AI Response Stream Box (if Live AI is used) -->
+          <div class="live-ai-response-box hidden" id="live-ai-box">
+            <div class="live-ai-header">
+              <span class="live-ai-dot"></span>
+              <span class="live-ai-title">Phản hồi Sư phạm từ Model (<strong id="live-model-name">OpenRouter</strong>):</span>
+            </div>
+            <div class="live-ai-text" id="live-ai-text-content"></div>
           </div>
 
           <!-- Scaffolding Stepper Accordion -->
@@ -183,11 +257,14 @@ def run_react_agent(user_query, tools):
                   <span class="hint-num">2</span>
                   <strong>Dẫn nguồn lý thuyết & Tài liệu khóa học</strong>
                 </div>
-                <button class="btn-unlock" onclick="unlockHint(2)">Mở gợi ý nấc 2 🔓</button>
+                <button class="btn-unlock" id="btn-unlock-2" onclick="unlockHint(2)">Mở gợi ý nấc 2 🔓</button>
               </div>
               <div class="hint-body hidden" id="hint-2-content">
                 <div class="citation-box">
-                  <div class="citation-source">📖 Slide 14 · Kiến trúc ReAct (Thought - Action - Observation Loop)</div>
+                  <div class="citation-header">
+                    <span class="citation-source">📖 Slide 14 · Kiến trúc ReAct (Thought - Action - Observation Loop)</span>
+                    <button class="btn-view-slide" onclick="viewSlideModal()">Xem Slide 👁️</button>
+                  </div>
                   <blockquote>"LLM cần được tiếp nhận toàn bộ chuỗi <code>User Query + Intermediate Steps (Thought/Action/Observation)</code> trong prompt ở mỗi vòng lặp để biết mình đang ở bước nào."</blockquote>
                 </div>
               </div>
@@ -200,7 +277,7 @@ def run_react_agent(user_query, tools):
                   <span class="hint-num">3</span>
                   <strong>Câu hỏi phân rã hành động (Sub-problem Probing)</strong>
                 </div>
-                <button class="btn-unlock" onclick="unlockHint(3)">Mở gợi ý nấc 3 🔓</button>
+                <button class="btn-unlock" id="btn-unlock-3" onclick="unlockHint(3)">Mở gợi ý nấc 3 🔓</button>
               </div>
               <div class="hint-body hidden" id="hint-3-content">
                 <div class="probing-box">
@@ -242,7 +319,9 @@ def run_react_agent(user_query, tools):
             
             <div class="probing-response-area">
               <textarea id="probing-answer" rows="3" placeholder="Nhập câu trả lời phản biện của bạn (VD: Áp dụng Rolling Window / Summarization Memory)..."></textarea>
-              <button class="btn btn-primary" onclick="submitProbing()">Gửi phản biện</button>
+              <div class="probing-actions">
+                <button class="btn btn-primary" onclick="submitProbing()">🚀 Gửi phản biện & Hoàn thành bài</button>
+              </div>
             </div>
           </div>
         </div>
@@ -258,17 +337,17 @@ def run_react_agent(user_query, tools):
             <div class="summary-grid">
               <div class="summary-item error-origin">
                 <div class="item-label">❌ Lỗi sai ban đầu</div>
-                <div class="item-value">Ngộ nhận API tự động nhớ ngữ cảnh qua các lượt gọi hàm.</div>
+                <div class="item-value" id="summary-error-text">Ngộ nhận API tự động nhớ ngữ cảnh qua các lượt gọi hàm.</div>
               </div>
               <div class="summary-item concept-learned">
                 <div class="item-label">💡 Bản chất đã hiểu</div>
-                <div class="item-value">ReAct Agent là vòng lặp tích lũy Scratchpad (Thought + Action + Observation) vào Messages List.</div>
+                <div class="item-value" id="summary-concept-text">ReAct Agent là vòng lặp tích lũy Scratchpad (Thought + Action + Observation) vào Messages List.</div>
               </div>
             </div>
 
             <div class="key-takeaways">
               <h4>📌 3 Điểm cốt lõi cần nhớ cho bài Lab tiếp theo:</h4>
-              <ul>
+              <ul id="summary-takeaways-list">
                 <li>API LLM là <strong>Stateless</strong> — client chịu trách nhiệm bảo toàn memory.</li>
                 <li>Mỗi công cụ trả về phải được bọc trong vai trò <code>ToolMessage</code> hoặc định dạng rõ ràng trong Prompt.</li>
                 <li>Luôn có điều kiện dừng (Max Iterations) để tránh lặp vô tận.</li>
@@ -276,8 +355,9 @@ def run_react_agent(user_query, tools):
             </div>
 
             <div class="summary-actions">
-              <button class="btn btn-outline" onclick="resetDemo()">🔄 Thử lại kịch bản khác</button>
-              <button class="btn btn-primary" onclick="alert('Đã mở khóa bài học tiếp theo trên VLearn!')">
+              <button class="btn btn-outline" onclick="copyMasteryNote()">📋 Sao chép Note học tập</button>
+              <button class="btn btn-secondary" onclick="resetDemo()">🔄 Thử lại kịch bản khác</button>
+              <button class="btn btn-success" onclick="alert('🎉 Chúc mừng bạn đã hoàn thành thử thách chẩn đoán và mở khóa bài học tiếp theo!')">
                 🚀 Vào bài học tiếp theo
               </button>
             </div>
@@ -289,7 +369,7 @@ def run_react_agent(user_query, tools):
           <div class="toast-icon">🛡️</div>
           <div class="toast-content">
             <strong>Rào cản AI (Anti-Spoil Guardrail):</strong>
-            <p>Hệ thống không cung cấp đáp án trực tiếp để bảo vệ năng lực tự tư duy của bạn. Hãy sử dụng các Nấc gợi ý ở trên!</p>
+            <p id="toast-message-text">Hệ thống không cung cấp đáp án trực tiếp để bảo vệ năng lực tự tư duy của bạn. Hãy sử dụng các Nấc gợi ý ở trên!</p>
           </div>
           <button class="toast-close" onclick="closeToast()">✕</button>
         </div>
@@ -298,9 +378,78 @@ def run_react_agent(user_query, tools):
     </div>
   </main>
 
+  <!-- Slide Preview Modal -->
+  <div class="modal-overlay hidden" id="slide-modal" onclick="closeSlideModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📖 Trích xuất Bài giảng: <strong>Slide 14 · ReAct Architecture</strong></span>
+        </div>
+        <button class="modal-close" onclick="closeSlideModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="slide-visual-mockup">
+          <div class="slide-diagram-box">
+            <div class="diagram-step step-user">👤 User Query</div>
+            <div class="diagram-arrow">➔</div>
+            <div class="diagram-step step-llm">🧠 LLM (Thought + Action)</div>
+            <div class="diagram-arrow">➔</div>
+            <div class="diagram-step step-tool">🛠️ Tool Execution</div>
+            <div class="diagram-arrow">➔</div>
+            <div class="diagram-step step-obs">📝 Observation (Scratchpad)</div>
+            <div class="diagram-loopback">↩️ Nạp lại toàn bộ chuỗi vào LLM Context</div>
+          </div>
+          <div class="slide-quote-highlight">
+            <strong>Nguyên lý vàng:</strong> "Không có memory nội tại trong REST API. Mọi thông tin cần LLM suy luận đều phải nằm trong Context Window của lượt gọi hiện hành."
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeSlideModal()">Đã hiểu, quay lại làm bài</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings / API Key Modal -->
+  <div class="modal-overlay hidden" id="settings-modal" onclick="closeSettingsModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️ Cấu hình AI Engine (OpenRouter / Live API)</span>
+        </div>
+        <button class="modal-close" onclick="closeSettingsModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="settings-desc">Bạn có thể dùng chế độ <strong>Mô phỏng tức thì (Mock)</strong> hoặc điền <strong>OpenRouter API Key</strong> để gọi AI trả lời trực tiếp trong lúc quay Demo.</p>
+        
+        <div class="input-group">
+          <label for="cfg-engine-mode">Chế độ vận hành:</label>
+          <select id="cfg-engine-mode" class="dropdown-select" onchange="toggleApiKeyInput(this.value)">
+            <option value="live">⚡ Live AI Call (Gọi trực tiếp OpenRouter LLM)</option>
+            <option value="mock">🎭 Instant Simulation Mode (Mô phỏng nhanh không cần API key)</option>
+          </select>
+        </div>
+
+        <div class="input-group" id="group-api-key">
+          <label for="cfg-api-key">OpenRouter API Key (bắt đầu bằng <code>sk-or-v1-...</code>):</label>
+          <input type="password" id="cfg-api-key" class="text-input" placeholder="sk-or-v1-..." value="">
+        </div>
+
+        <div class="input-group" id="group-api-model">
+          <label for="cfg-api-model">Model OpenRouter:</label>
+          <input type="text" id="cfg-api-model" class="text-input" value="deepseek/deepseek-v4-flash-0731:free" placeholder="ví dụ: google/gemini-2.0-flash-001 hoặc deepseek/deepseek-v4-flash-0731:free">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeSettingsModal()">Hủy</button>
+        <button class="btn btn-primary" onclick="saveSettings()">Lưu cấu hình</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="app-footer">
     <span>Mini Hackathon AI Batch 04 · Lớp 3B · Phòng E402 · Nhóm <strong>BaConSau</strong></span>
-    <span>Deliverable <strong>CP2 Interactive Prototype</strong> (Chạy mô phỏng không cần backend)</span>
+    <span>Deliverable <strong>CP3 Interactive Prototype Demo</strong></span>
   </footer>
 
   <script src="app.js"></script>
