@@ -110,6 +110,6 @@ K4-3B-E402-BaConSau/
   + 2 ca: AI gợi ý hơi dài, vô tình chứa từ khóa đáp án (cần tinh chỉnh prompt siết chặt token).
   + 2 ca: Trích dẫn slide chưa đúng trang trọng tâm.
   + 1 ca: Guardrail từ chối hơi cứng nhắc khi học viên hỏi câu hỏi mở.
-- Link Video thao tác 30s (AI chạy thật): [ĐIỀN LINK DRIVE / YOUTUBE TẠI ĐÂY]
+- Link Video thao tác 30s (AI chạy thật): https://drive.google.com/file/d/1Myt0XzLa2zt0e3F2VetfH5Wse4a2UFWE/view?usp=sharing
 - Link Thư mục Eval (GitHub): https://github.com/TheViet298/K4-3B-E402-BaConSau/tree/main/eval
 ```
