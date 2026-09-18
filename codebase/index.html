@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VLearn LMS · Bài 3 - DAY03: Chatbot vs ReAct Agent (Error-Driven Active Learning)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="vlearn-theme">
   <!-- VLearn Main Top Navigation Bar -->
   <header class="vlearn-header">
     <div class="vlearn-nav-left">
       <button class="btn-icon" title="Quay lại danh sách bài học">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
       </button>
       <div class="lesson-meta">
         <span class="lesson-title">Bài 3 · DAY03</span>
@@ -59,7 +65,7 @@
 
   <!-- Main Body Layout: Left Sidebar + Center Learning Content + Right AI Tutor Drawer -->
   <div class="vlearn-workspace">
-    
+
     <!-- LEFT SIDEBAR: VLearn Course Tree Navigation -->
     <aside class="vlearn-sidebar">
       <div class="sidebar-header">
@@ -105,7 +111,8 @@
             <span>Videos</span>
           </div>
           <ul class="tree-items">
-            <li class="tree-item locked" onclick="alert('Hãy hoàn thành Thử thách Chẩn đoán với AI Tutor để mở khóa Video lý thuyết!')">
+            <li class="tree-item locked"
+              onclick="alert('Hãy hoàn thành Thử thách Chẩn đoán với AI Tutor để mở khóa Video lý thuyết!')">
               <span class="tree-icon">📹</span>
               <span class="tree-text">Từ Chatbot đến AI Agent</span>
               <span class="duration-tag">5 phút</span>
@@ -148,7 +155,7 @@
 
     <!-- CENTER MAIN CONTENT AREA -->
     <main class="vlearn-main-stage">
-      
+
       <!-- Top Content Tabs -->
       <div class="content-tab-bar">
         <button class="tab-btn active" id="tab-btn-challenge" onclick="switchMainTab('challenge')">
@@ -179,7 +186,9 @@
             </div>
             <h2>🔥 Bài toán Chẩn đoán: Debug luồng Multi-hop Tool Calling</h2>
             <p class="intro-desc">
-              Trước khi xem bài giảng lý thuyết, bạn hãy kiểm tra trực giác của mình. Đoạn code dưới đây bị sụp đổ khi nhận câu hỏi cần gọi 2 công cụ liên tiếp. Hãy đề xuất giải pháp và giải thích lý do tại sao bạn làm như vậy.
+              Trước khi xem bài giảng lý thuyết, em hãy kiểm tra trực giác của mình. Đoạn code dưới đây bị sụp đổ khi
+              nhận câu hỏi cần gọi 2 công cụ liên tiếp. Hãy đề xuất giải pháp và giải thích lý do tại sao em làm như
+              vậy.
             </p>
           </div>
 
@@ -204,16 +213,16 @@ def run_react_agent(user_query, tools):
           <div class="submission-form">
             <div class="form-row">
               <label for="student-answer">
-                <span class="step-num">1</span> Đề xuất giải pháp sửa code của bạn:
+                <span class="step-num">1</span> Đề xuất sửa code của em:
               </label>
-              <textarea id="student-answer" rows="3" placeholder="Nhập cách bạn sửa đoạn logic trên..."></textarea>
+              <textarea id="student-answer" rows="3" placeholder="Nhập cách em sửa đoạn logic trên..."></textarea>
             </div>
 
             <div class="form-row">
               <label for="student-reasoning">
-                <span class="step-num">2</span> Lập luận tư duy (Vì sao bạn nghĩ giải pháp này đúng?):
+                <span class="step-num">2</span> Lập luận tư duy (Vì sao em nghĩ giải pháp này đúng?):
               </label>
-              <textarea id="student-reasoning" rows="2" placeholder="Giải thích mô hình tư duy của bạn..."></textarea>
+              <textarea id="student-reasoning" rows="2" placeholder="Giải thích mô hình tư duy của em..."></textarea>
             </div>
 
             <div class="form-actions">
@@ -246,7 +255,8 @@ def run_react_agent(user_query, tools):
             <div class="slide-content-body">
               <h3 class="react-formula">ReAct = Reasoning + Acting</h3>
               <p class="react-definition">
-                ReAct là pattern kết hợp <strong>suy luận theo từng bước</strong> với <strong>gọi công cụ và quan sát kết quả</strong>. Thay vì trả lời ngay, agent sẽ lặp qua các bước:
+                ReAct là pattern kết hợp <strong>suy luận theo từng bước</strong> với <strong>gọi công cụ và quan sát
+                  kết quả</strong>. Thay vì trả lời ngay, agent sẽ lặp qua các bước:
               </p>
 
               <div class="react-steps-list">
@@ -279,7 +289,8 @@ def run_react_agent(user_query, tools):
               <!-- Slide Key Callout (Stateless highlight) -->
               <div class="slide-callout-note" id="slide-callout-box">
                 <span class="callout-icon">💡</span>
-                <span><strong>Lưu ý cốt lõi:</strong> LLM API là <em>Stateless</em>. Vòng lặp ReAct bắt buộc phải tích lũy chuỗi <code>Thought + Action + Observation</code> vào danh sách hội thoại ở mỗi vòng lặp!</span>
+                <span><strong>Lưu ý cốt lõi:</strong> LLM API là <em>Stateless</em>. Vòng lặp ReAct bắt buộc phải tích
+                  lũy chuỗi <code>Thought + Action + Observation</code> vào danh sách hội thoại ở mỗi vòng lặp!</span>
               </div>
             </div>
 
@@ -328,15 +339,17 @@ def run_react_agent(user_query, tools):
       </div>
 
       <div class="tutor-drawer-body">
-        
+
         <!-- State 0: Idle -->
         <div class="tutor-state" id="state-idle">
           <div class="empty-tutor-illustration">🤖</div>
           <h4>Sẵn sàng chẩn đoán bài làm</h4>
-          <p>Nhập bài giải ở màn hình chính hoặc chọn 1 kịch bản mẫu để AI chẩn đoán xem bạn đang mắc <strong>Ngộ nhận (Misconception)</strong> hay <strong>Tắc nghẽn chuyển giao (Transfer Failure)</strong>.</p>
+          <p>Nhập bài giải ở màn hình chính hoặc chọn 1 kịch bản mẫu để AI chẩn đoán xem em đang mắc <strong>Ngộ nhận
+              (Misconception)</strong> hay <strong>Tắc nghẽn chuyển giao (Transfer Failure)</strong>.</p>
           <div class="rule-box">
-            <span class="rule-badge">🛡️ Cam kết Sư phạm:</span>
-            <p>AI Tutor chỉ dẫn dắt gợi mở từng bước, <strong>tuyệt đối không đưa code giải sẵn</strong> để rèn luyện năng lực tự tư duy.</p>
+            <span class="rule-badge">🛡️ Cam kế:</span>
+            <p>AI Tutor chỉ dẫn dắt gợi mở từng bước, <strong>tuyệt đối không đưa code giải sẵn</strong> để rèn luyện
+              năng lực tự tư duy.</p>
           </div>
         </div>
 
@@ -346,7 +359,9 @@ def run_react_agent(user_query, tools):
             <div class="spinning-core">🧠</div>
             <h4>AI Tutor đang phân tích...</h4>
             <p class="loader-desc">Đang đối chiếu bài làm với kiến thức Slide 34 và kiểm tra tiền đề ngộ nhận...</p>
-            <div class="pulse-bar"><div class="pulse-fill"></div></div>
+            <div class="pulse-bar">
+              <div class="pulse-fill"></div>
+            </div>
           </div>
         </div>
 
@@ -385,7 +400,8 @@ def run_react_agent(user_query, tools):
                 <span class="hint-pill">Reflection</span>
               </div>
               <div class="hint-body" id="hint-1-content">
-                Em đang giả định rằng LLM tự lưu trạng thái giữa các lần gọi. Nhưng thực tế mỗi lệnh gọi API hoàn toàn <strong>Stateless (Không lưu trạng thái)</strong>.
+                Em đang giả định rằng LLM tự lưu trạng thái giữa các lần gọi. Nhưng thực tế mỗi lệnh gọi API hoàn toàn
+                <strong>Stateless (Không lưu trạng thái)</strong>.
               </div>
             </div>
 
@@ -402,7 +418,8 @@ def run_react_agent(user_query, tools):
                     <span>📖 Slide 34: Định nghĩa ReAct</span>
                     <button class="btn-jump-slide" onclick="jumpToSlide34()">Mở Slide 34 ↗</button>
                   </div>
-                  <blockquote>"ReAct là pattern lặp qua Thought ➔ Action ➔ Observation cho đến khi đủ thông tin. Không có memory nội tại trong REST API."</blockquote>
+                  <blockquote>"ReAct là pattern lặp qua Thought ➔ Action ➔ Observation cho đến khi đủ thông tin. Không
+                    có memory nội tại trong REST API."</blockquote>
                 </div>
               </div>
             </div>
@@ -416,7 +433,9 @@ def run_react_agent(user_query, tools):
               </div>
               <div class="hint-body hidden" id="hint-3-content">
                 <div class="probing-action-box">
-                  💡 Thay vì gọi <code>llm.invoke(f"Tool returned: {tool_result}")</code>, em hãy thử tạo 1 danh sách <code>messages = [user_query]</code> và <code>append</code> kết quả từng bước vào đó trước khi gọi lại model?
+                  💡 Thay vì gọi <code>llm.invoke(f"Tool returned: {tool_result}")</code>, em hãy thử tạo 1 danh sách
+                  <code>messages = [user_query]</code> và <code>append</code> kết quả từng bước vào đó trước khi gọi lại
+                  model?
                 </div>
               </div>
             </div>
@@ -438,18 +457,20 @@ def run_react_agent(user_query, tools):
           <div class="success-banner-card">
             <span class="banner-icon">🎯</span>
             <div>
-              <h4>Chính xác! Bạn đã tìm ra giải pháp đúng</h4>
-              <p>Để chắc chắn bạn không chỉ nhớ vẹt code, hãy thử sức với câu hỏi phản biện sau:</p>
+              <h4>Chính xác! Em đã tìm ra giải pháp đúng</h4>
+              <p>Để chắc chắn em không chỉ nhớ vẹt code, hãy thử sức với câu hỏi phản biện sau:</p>
             </div>
           </div>
 
           <div class="probing-container">
             <div class="probing-badge">⚡ Reverse-Probing Engine</div>
             <p class="probing-question-text" id="probing-q-text">
-              "Nếu chuỗi Thought - Action - Observation này lặp lại 15 vòng và vượt quá Context Window (vd 4k tokens), đoạn code của bạn sẽ xử lý thế nào để không crash?"
+              "Nếu chuỗi Thought - Action - Observation này lặp lại 15 vòng và vượt quá Context Window (vd 4k tokens),
+              đoạn code của em sẽ xử lý thế nào để không crash?"
             </p>
-            
-            <textarea id="probing-answer" rows="3" placeholder="Nhập câu trả lời phản biện của bạn (VD: Áp dụng Rolling Window / Summarization Memory)..."></textarea>
+
+            <textarea id="probing-answer" rows="3"
+              placeholder="Nhập câu trả lời phản biện của em (VD: Áp dụng Rolling Window / Summarization Memory)..."></textarea>
             <button class="btn-submit-probing" onclick="submitProbing()">🚀 Gửi phản biện & Hoàn thành bài</button>
           </div>
         </div>
@@ -459,7 +480,7 @@ def run_react_agent(user_query, tools):
           <div class="mastery-summary-box">
             <div class="mastery-badge-gold">🏆 Hoàn thành Thử thách Chẩn đoán</div>
             <h3>Bản đồ Đúc kết từ Lỗi sai</h3>
-            
+
             <div class="mastery-diff">
               <div class="diff-block error-block">
                 <span class="diff-label">❌ Lỗi sai ban đầu:</span>
@@ -502,8 +523,10 @@ def run_react_agent(user_query, tools):
         <button class="btn-modal-close" onclick="closeSettingsModal()">✕</button>
       </div>
       <div class="modal-dialog-body">
-        <p class="modal-desc">Bạn có thể dùng chế độ <strong>Mô phỏng tức thì (Mock)</strong> hoặc điền <strong>OpenRouter API Key</strong> để gọi AI trả lời trực tiếp trong lúc quay Demo.</p>
-        
+        <p class="modal-desc">Em có thể dùng chế độ <strong>Mô phỏng tức thì (Mock)</strong> hoặc điền
+          <strong>OpenRouter API Key</strong> để gọi AI trả lời trực tiếp trong lúc quay Demo.
+        </p>
+
         <div class="form-group">
           <label for="cfg-engine-mode">Chế độ vận hành:</label>
           <select id="cfg-engine-mode" class="vlearn-select" onchange="toggleApiKeyInput(this.value)">
@@ -519,7 +542,8 @@ def run_react_agent(user_query, tools):
 
         <div class="form-group" id="group-api-model">
           <label for="cfg-api-model">Model OpenRouter:</label>
-          <input type="text" id="cfg-api-model" class="vlearn-input" value="deepseek/deepseek-v4-flash-0731:free" placeholder="ví dụ: google/gemini-2.0-flash-001 hoặc deepseek/deepseek-v4-flash-0731:free">
+          <input type="text" id="cfg-api-model" class="vlearn-input" value="deepseek/deepseek-v4-flash-0731:free"
+            placeholder="ví dụ: google/gemini-2.0-flash-001 hoặc deepseek/deepseek-v4-flash-0731:free">
         </div>
       </div>
       <div class="modal-dialog-footer">
@@ -534,11 +558,13 @@ def run_react_agent(user_query, tools):
     <div class="toast-shield">🛡️</div>
     <div class="toast-text">
       <strong>Rào cản AI (Anti-Spoil Guardrail):</strong>
-      <p id="toast-message-text">AI Tutor không cung cấp code giải trực tiếp để bảo vệ năng lực tự tư duy của bạn. Hãy sử dụng các Nấc gợi ý!</p>
+      <p id="toast-message-text">AI Tutor không cung cấp code giải trực tiếp để bảo vệ năng lực tự tư duy của em. Hãy
+        sử dụng các Nấc gợi ý!</p>
     </div>
     <button class="toast-x" onclick="closeToast()">✕</button>
   </div>
 
   <script src="app.js"></script>
 </body>
+
 </html>
